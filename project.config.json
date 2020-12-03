@@ -29,8 +29,11 @@
     "useIsolateContext": true,
     "useCompilerModule": true,
     "userConfirmedUseCompilerModuleSwitch": false,
+    "userConfirmedBundleSwitch": false,
     "packNpmManually": false,
-    "packNpmRelationList": []
+    "packNpmRelationList": [],
+    "minifyWXSS": true,
+    "bundle": false
   },
   "appid": "wx3e2776e9a363ffea",
   "projectname": "sales_analysis",
@@ -39,22 +42,18 @@
   "simulatorPluginLibVersion": {},
   "condition": {
     "search": {
-      "current": -1,
       "list": []
     },
     "conversation": {
-      "current": -1,
       "list": []
     },
     "plugin": {
-      "current": -1,
       "list": []
     },
     "game": {
       "list": []
     },
     "miniprogram": {
-      "current": 0,
       "list": [
         {
           "id": -1,
