@@ -1,43 +1,118 @@
 <!--pages/record/index.wxml-->
-<view class="section">
-  <view class="section__title">客户年龄</view>
-  <picker bindchange="bindPickerChange" value="{{index}}" range="{{ageArr}}">
-    <view class="picker">
-      当前选择：{{ageArr[index]['name']}}
-    </view>
-  </picker>
-</view>
-<view class="section">
-  <view class="section__title">多列选择器</view>
-  <picker mode="multiSelector" bindchange="bindMultiPickerChange" bindcolumnchange="bindMultiPickerColumnChange"
-    value="{{multiIndex}}" range="{{multiArray}}">
-    <view class="picker">
-      当前选择：{{multiArray[0][multiIndex[0]]}}，{{multiArray[1][multiIndex[1]]}}，{{multiArray[2][multiIndex[2]]}}
-    </view>
-  </picker>
-</view>
-<view class="section">
-  <view class="section__title">时间选择器</view>
-  <picker mode="time" value="{{time}}" start="09:01" end="21:01" bindchange="bindTimeChange">
-    <view class="picker">
-      当前选择: {{time}}
-    </view>
-  </picker>
-</view>
+<view class="page" xmlns:wx="http://www.w3.org/1999/xhtml">
+  <view class="page__bd">
+    <mp-form id="form" rules="{{rules}}" models="{{formData}}">
+      <mp-cells title="销售日期">
+        <mp-cell prop="date" title="日期" ext-class="">
+          <picker data-field="date" mode="date" value="{{date}}" start="2015-09-01" end="2017-09-01"
+            bindchange="bindDateChange">
+            <view class="weui-input">{{date}}</view>
+          </picker>
+        </mp-cell>
+      </mp-cells>
 
-<view class="section">
-  <view class="section__title">日期选择器</view>
-  <picker mode="date" value="{{date}}" start="2015-09-01" end="2017-09-01" bindchange="bindDateChange">
-    <view class="picker">
-      当前选择: {{date}}
+      <mp-cells title="顾客信息">
+        <mp-cell prop="qq" title="年龄" ext-class="">
+          <view class="weui-cell weui-cell_select">
+            <view class="weui-cell__bd">
+              <picker bindchange="bindAgeChange" value="{{ageIndex}}" range="{{ageArr}}">
+                <view class="">{{ageArr[ageIndex]}}</view>
+              </picker>
+            </view>
+          </view>
+        </mp-cell>
+        <mp-cell prop="mobile" title="手机号" ext-class="">
+          <input bindinput="formInputChange" data-field="qq" class="weui-input" placeholder="请输入手机号" />
+        </mp-cell>
+        <mp-cell prop="date" title="是否回头客" ext-class="repeat-cell">
+          <view class="repeat-switch">
+            <switch checked="{{isRepeat}}" bindchange="bindIsRepeatChange" />
+          </view>
+        </mp-cell>
+      </mp-cells>
+
+      <mp-cells title="商品信息">
+        <mp-cell prop="qq" title="分类" ext-class="">
+          <view class="weui-cell weui-cell_select">
+            <view class="weui-cell__bd">
+              <picker mode="multiSelector" bindchange="bindMultiPickerChange"
+                bindcolumnchange="bindCategoryPickerColumnChange" value="{{categoryIndex}}" range-key="{{'name'}}"
+                range="{{objectCategoryArr}}">
+                <view class="picker">
+                  {{objectCategoryArr[0][categoryIndex[0]]['name']}} /
+                  {{objectCategoryArr[1][categoryIndex[1]]['name']}}
+                </view>
+              </picker>
+            </view>
+          </view>
+
+        </mp-cell>
+        <mp-cell prop="qq" title="颜色" ext-class="">
+          <view class="weui-cell weui-cell_select">
+            <view class="weui-cell__bd">
+              <picker bindchange="bindColorChange" value="{{colorIndex}}" range-key="{{'name'}}"
+                range="{{objectColorArr}}">
+                <view class="">{{objectColorArr[colorIndex]['name']}}</view>
+              </picker>
+            </view>
+          </view>
+        </mp-cell>
+        <mp-cell prop="qq" title="数量" ext-class="">
+          <view class="weui-cell weui-cell_select">
+            <view class="weui-cell__bd">
+              <picker bindchange="bindCountryChange" value="{{countryIndex}}" range="{{countries}}">
+                <view class="">{{countries[countryIndex]}}</view>
+              </picker>
+            </view>
+          </view>
+        </mp-cell>
+        <mp-cell prop="qq" title="单价" ext-class="">
+          <view class="weui-cell weui-cell_select">
+            <view class="weui-cell__bd">
+              <picker bindchange="bindCountryChange" value="{{countryIndex}}" range="{{countries}}">
+                <view class="">{{countries[countryIndex]}}</view>
+              </picker>
+            </view>
+          </view>
+        </mp-cell>
+        <mp-cell prop="qq" title="图片" ext-class="">
+          <view class="weui-cell weui-cell_select">
+            <view class="weui-cell__bd">
+              <picker bindchange="bindCountryChange" value="{{countryIndex}}" range="{{countries}}">
+                <view class="">{{countries[countryIndex]}}</view>
+              </picker>
+            </view>
+          </view>
+        </mp-cell>
+      </mp-cells>
+
+      <view class="weui-cells__title">顾客意见/建议</view>
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell">
+          <view class="weui-cell__bd">
+            <textarea class="weui-textarea" placeholder="顾客意见/建议" style="height: 3.3em" />
+            <view class="weui-textarea-counter">0/200</view>
+                </view>
+            </view>
+        </view>
+        <view class="weui-cells__title">备注</view>
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell">
+          <view class="weui-cell__bd">
+            <textarea class="weui-textarea" placeholder="请输入备注信息" style="height: 3.3em" />
+            <view class="weui-textarea-counter">0/200</view>
+                </view>
+            </view>
+        </view>
+
+      
+  
+
+      </mp-form>
+
+        <view class="weui-btn-area">
+            <button class="weui-btn" type="primary" bindtap="submitForm">确定</button>
+        </view>
     </view>
-  </picker>
 </view>
-<view class="section">
-  <view class="section__title">省市区选择器</view>
-  <picker mode="region" bindchange="bindRegionChange" value="{{region}}" custom-item="{{customItem}}">
-    <view class="picker">
-      当前选择：{{region[0]}}，{{region[1]}}，{{region[2]}}
-    </view>
-  </picker>
-</view>
+    

@@ -1,1 +1,3 @@
-/* pages/record/index.wxss */
+.repeat-cell .repeat-switch {
+  float: right;
+}

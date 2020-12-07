@@ -5,6 +5,8 @@ Page({
    * 页面的初始数据
    */
   data: {
+    date: '2016-09-01',
+    time: '12:01',
     ageArr: ['18-25岁', '25-30岁',
       '30-35岁',
       '35-40岁',
@@ -12,75 +14,277 @@ Page({
       '45-50岁',
       '50岁以上'
     ],
-    objectArray: [{
-        id: 0,
-        name: '美国'
-      },
-      {
-        id: 1,
-        name: '中国'
-      },
-      {
-        id: 2,
-        name: '巴西'
-      },
-      {
-        id: 3,
-        name: '日本'
-      }
-    ],
-    index: 0,
-    multiArray: [
-      ['无脊柱动物', '脊柱动物'],
-      ['扁性动物', '线形动物', '环节动物', '软体动物', '节肢动物'],
-      ['猪肉绦虫', '吸血虫']
-    ],
-    objectMultiArray: [
+    ageIndex: 0,
+    telNum: '',
+    isRepeat: false,
+    categoryArr: [
+      /**上衣分类 */
       [{
           id: 0,
-          name: '无脊柱动物'
+          name: 'T恤'
         },
         {
           id: 1,
-          name: '脊柱动物'
-        }
-      ],
-      [{
-          id: 0,
-          name: '扁性动物'
-        },
-        {
-          id: 1,
-          name: '线形动物'
+          name: '吊带'
         },
         {
           id: 2,
-          name: '环节动物'
+          name: '打底'
         },
         {
           id: 3,
-          name: '软体动物'
+          name: '卫衣'
+        },
+        {
+          id: 4,
+          name: '毛衣'
+        },
+        {
+          id: 5,
+          name: '马甲'
+        },
+        {
+          id: 6,
+          name: '外套'
+        },
+        {
+          id: 7,
+          name: '风衣'
+        },
+        {
+          id: 8,
+          name: '大衣'
+        },
+        {
+          id: 9,
+          name: '羽绒服'
+        }
+      ],
+      /**下衣分类 */
+      [{
+          id: 0,
+          name: '长裤'
+        },
+        {
+          id: 1,
+          name: '短裤'
+        },
+        {
+          id: 2,
+          name: '半裙'
         },
         {
           id: 3,
-          name: '节肢动物'
+          name: '长裙'
+        }
+      ],
+      /**丝巾分类 */
+      [{
+          id: 0,
+          name: '真丝围巾'
+        },
+        {
+          id: 1,
+          name: '羊绒围巾'
+        }
+      ],
+      /**披肩分类 */
+      [{
+        id: 0,
+        name: '披肩'
+      }],
+      /**套装分类 */
+      [{
+        id: 0,
+        name: '套装'
+      }],
+    ],
+    objectCategoryArr: [
+      [{
+          id: 0,
+          name: '上衣'
+        },
+        {
+          id: 1,
+          name: '下衣'
+        },
+        {
+          id: 2,
+          name: '丝巾'
+        },
+        {
+          id: 3,
+          name: '披肩'
+        },
+        {
+          id: 4,
+          name: '套装'
         }
       ],
       [{
           id: 0,
-          name: '猪肉绦虫'
+          name: 'T恤'
         },
         {
           id: 1,
-          name: '吸血虫'
+          name: '吊带'
+        },
+        {
+          id: 2,
+          name: '打底'
+        },
+        {
+          id: 3,
+          name: '卫衣'
+        },
+        {
+          id: 4,
+          name: '毛衣'
+        },
+        {
+          id: 5,
+          name: '马甲'
+        },
+        {
+          id: 6,
+          name: '外套'
+        },
+        {
+          id: 7,
+          name: '风衣'
+        },
+        {
+          id: 8,
+          name: '大衣'
+        },
+        {
+          id: 9,
+          name: '羽绒服'
         }
       ]
     ],
-    multiIndex: [0, 0, 0],
-    date: '2016-09-01',
-    time: '12:01',
+    categoryIndex: [0, 0],
     region: ['广东省', '广州市', '海珠区'],
-    customItem: '全部'
+    customItem: '全部',
+    showTopTips: false,
+    radioItems: [{
+        name: 'cell standard',
+        value: '0',
+        checked: true
+      },
+      {
+        name: 'cell standard',
+        value: '1'
+      }
+    ],
+    checkboxItems: [{
+        name: 'standard is dealt for u.',
+        value: '0',
+        checked: true
+      },
+      {
+        name: 'standard is dealicient for u.',
+        value: '1'
+      }
+    ],
+    objectColorArr: [{
+        value: '0',
+        name: '黑色'
+      },
+      {
+        value: '1',
+        name: '白色'
+      },
+      {
+        value: '2',
+        name: '灰色'
+      },
+      {
+        value: '3',
+        name: '红色'
+      },
+      {
+        value: '4',
+        name: '绿色'
+      },
+      {
+        value: '6',
+        name: '蓝色'
+      },
+      {
+        value: '7',
+        name: '卡其色'
+      },
+      {
+        value: '8',
+        name: '咖啡色'
+      },
+      {
+        value: '9',
+        name: '拼接色'
+      },
+      {
+        value: '10',
+        name: '其他颜色'
+      }
+    ],
+    colorIndex: 0,
+
+
+
+    countryCodes: ["+86", "+80", "+84", "+87"],
+    countryCodeIndex: 0,
+
+    countries: ["中国", "美国", "英国"],
+    countryIndex: 0,
+
+    accounts: ["微信号", "QQ", "Email"],
+    accountIndex: 0,
+
+    isAgree: false,
+    formData: {
+
+    },
+    rules: [{
+      name: 'radio',
+      rules: {
+        required: true,
+        message: '单选列表是必选项'
+      },
+    }, {
+      name: 'checkbox',
+      rules: {
+        required: true,
+        message: '多选列表是必选项'
+      },
+    }, {
+      name: 'qq',
+      rules: {
+        required: true,
+        message: 'qq必填'
+      },
+    }, {
+      name: 'mobile',
+      rules: [{
+        required: true,
+        message: 'mobile必填'
+      }, {
+        mobile: true,
+        message: 'mobile格式不对'
+      }],
+    }, {
+      name: 'vcode',
+      rules: {
+        required: true,
+        message: '验证码必填'
+      },
+    }, {
+      name: 'idcard',
+      rules: {
+        required: true,
+        message: 'idcard必填'
+      },
+    }]
   },
 
   /**
@@ -139,6 +343,39 @@ Page({
 
   },
 
+  /**
+   * 顾客年龄选择
+   * @param {*} e 
+   */
+  bindAgeChange(e) {
+    this.setData({
+      ageIndex: e.detail.value
+    })
+  },
+
+
+  /**
+   * 是否回头客切换
+   * @param {*} e 
+   */
+  bindIsRepeatChange(e) {
+    this.setData({
+      isRepeat: e.detail.value
+    })
+  },
+
+  /**
+   * 商品颜色选择
+   * @param {*} e 
+   */
+  bindColorChange(e) {
+    console.log('picker country 发生选择改变，携带值为', e.detail.value);
+
+    this.setData({
+      colorIndex: e.detail.value
+    })
+  },
+
   bindPickerChange: function (e) {
     console.log('picker发送选择改变，携带值为', e.detail.value)
     this.setData({
@@ -147,72 +384,27 @@ Page({
   },
   bindMultiPickerChange: function (e) {
     console.log('picker发送选择改变，携带值为', e.detail.value)
+
+
     this.setData({
-      multiIndex: e.detail.value
+      categoryIndex: e.detail.value
     })
   },
-  bindMultiPickerColumnChange: function (e) {
+
+  /**
+   * 商品分类picker列变化时的回调
+   * @param {*} e 
+   */
+  bindCategoryPickerColumnChange(e) {
     console.log('修改的列为', e.detail.column, '，值为', e.detail.value);
-    var data = {
-      multiArray: this.data.multiArray,
-      multiIndex: this.data.multiIndex
-    };
-    data.multiIndex[e.detail.column] = e.detail.value;
-    switch (e.detail.column) {
-      case 0:
-        switch (data.multiIndex[0]) {
-          case 0:
-            data.multiArray[1] = ['扁性动物', '线形动物', '环节动物', '软体动物', '节肢动物'];
-            data.multiArray[2] = ['猪肉绦虫', '吸血虫'];
-            break;
-          case 1:
-            data.multiArray[1] = ['鱼', '两栖动物', '爬行动物'];
-            data.multiArray[2] = ['鲫鱼', '带鱼'];
-            break;
-        }
-        data.multiIndex[1] = 0;
-        data.multiIndex[2] = 0;
-        break;
-      case 1:
-        switch (data.multiIndex[0]) {
-          case 0:
-            switch (data.multiIndex[1]) {
-              case 0:
-                data.multiArray[2] = ['猪肉绦虫', '吸血虫'];
-                break;
-              case 1:
-                data.multiArray[2] = ['蛔虫'];
-                break;
-              case 2:
-                data.multiArray[2] = ['蚂蚁', '蚂蟥'];
-                break;
-              case 3:
-                data.multiArray[2] = ['河蚌', '蜗牛', '蛞蝓'];
-                break;
-              case 4:
-                data.multiArray[2] = ['昆虫', '甲壳动物', '蛛形动物', '多足动物'];
-                break;
-            }
-            break;
-          case 1:
-            switch (data.multiIndex[1]) {
-              case 0:
-                data.multiArray[2] = ['鲫鱼', '带鱼'];
-                break;
-              case 1:
-                data.multiArray[2] = ['青蛙', '娃娃鱼'];
-                break;
-              case 2:
-                data.multiArray[2] = ['蜥蜴', '龟', '壁虎'];
-                break;
-            }
-            break;
-        }
-        data.multiIndex[2] = 0;
-        break;
+
+    if (e.detail.column === 0) {
+      let data = this.data.objectCategoryArr
+      data[1] = this.data.categoryArr[e.detail.value]
+      this.setData({
+        objectCategoryArr: data
+      })
     }
-    console.log(data.multiIndex);
-    this.setData(data);
   },
   bindDateChange: function (e) {
     console.log('picker发送选择改变，携带值为', e.detail.value)
@@ -230,6 +422,104 @@ Page({
     console.log('picker发送选择改变，携带值为', e.detail.value)
     this.setData({
       region: e.detail.value
+    })
+  },
+
+  radioChange: function (e) {
+    console.log('radio发生change事件，携带value值为：', e.detail.value);
+
+    var radioItems = this.data.radioItems;
+    for (var i = 0, len = radioItems.length; i < len; ++i) {
+      radioItems[i].checked = radioItems[i].value == e.detail.value;
+    }
+
+    this.setData({
+      radioItems: radioItems,
+      [`formData.radio`]: e.detail.value
+    });
+  },
+  checkboxChange: function (e) {
+    console.log('checkbox发生change事件，携带value值为：', e.detail.value);
+
+    var checkboxItems = this.data.checkboxItems,
+      values = e.detail.value;
+    for (var i = 0, lenI = checkboxItems.length; i < lenI; ++i) {
+      checkboxItems[i].checked = false;
+
+      for (var j = 0, lenJ = values.length; j < lenJ; ++j) {
+        if (checkboxItems[i].value == values[j]) {
+          checkboxItems[i].checked = true;
+          break;
+        }
+      }
+    }
+
+    this.setData({
+      checkboxItems: checkboxItems,
+      [`formData.checkbox`]: e.detail.value
+    });
+  },
+  bindDateChange: function (e) {
+    this.setData({
+      date: e.detail.value,
+      [`formData.date`]: e.detail.value
+    })
+  },
+  formInputChange(e) {
+    const {
+      field
+    } = e.currentTarget.dataset
+    this.setData({
+      [`formData.${field}`]: e.detail.value
+    })
+  },
+  bindTimeChange: function (e) {
+    this.setData({
+      time: e.detail.value
+    })
+  },
+  bindCountryCodeChange: function (e) {
+    console.log('picker country code 发生选择改变，携带值为', e.detail.value);
+
+    this.setData({
+      countryCodeIndex: e.detail.value
+    })
+  },
+  bindCountryChange: function (e) {
+    console.log('picker country 发生选择改变，携带值为', e.detail.value);
+
+    this.setData({
+      countryIndex: e.detail.value
+    })
+  },
+  bindAccountChange: function (e) {
+    console.log('picker account 发生选择改变，携带值为', e.detail.value);
+
+    this.setData({
+      accountIndex: e.detail.value
+    })
+  },
+  bindAgreeChange: function (e) {
+    this.setData({
+      isAgree: !!e.detail.value.length
+    });
+  },
+  submitForm() {
+    this.selectComponent('#form').validate((valid, errors) => {
+      console.log('valid', valid, errors)
+      if (!valid) {
+        const firstError = Object.keys(errors)
+        if (firstError.length) {
+          this.setData({
+            error: errors[firstError[0]].message
+          })
+
+        }
+      } else {
+        wx.showToast({
+          title: '校验通过'
+        })
+      }
     })
   }
 })
