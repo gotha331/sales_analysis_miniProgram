@@ -164,29 +164,6 @@ Page({
       ]
     ],
     categoryIndex: [0, 0],
-    region: ['广东省', '广州市', '海珠区'],
-    customItem: '全部',
-    showTopTips: false,
-    radioItems: [{
-        name: 'cell standard',
-        value: '0',
-        checked: true
-      },
-      {
-        name: 'cell standard',
-        value: '1'
-      }
-    ],
-    checkboxItems: [{
-        name: 'standard is dealt for u.',
-        value: '0',
-        checked: true
-      },
-      {
-        name: 'standard is dealicient for u.',
-        value: '1'
-      }
-    ],
     objectColorArr: [{
         value: '0',
         name: '黑色'
@@ -213,80 +190,55 @@ Page({
       },
       {
         value: '7',
-        name: '卡其色'
+        name: '黄色'
       },
       {
         value: '8',
-        name: '咖啡色'
+        name: '紫色'
       },
       {
         value: '9',
-        name: '拼接色'
+        name: '卡其色'
       },
       {
         value: '10',
+        name: '咖啡色'
+      },
+      {
+        value: '11',
+        name: '拼接色'
+      },
+      {
+        value: '12',
         name: '其他颜色'
       }
     ],
     colorIndex: 0,
-
-
-
-    countryCodes: ["+86", "+80", "+84", "+87"],
-    countryCodeIndex: 0,
-
-    countries: ["中国", "美国", "英国"],
-    countryIndex: 0,
-
-    accounts: ["微信号", "QQ", "Email"],
-    accountIndex: 0,
-
-    isAgree: false,
+    number: 1,
+    isInputNumberDecrease: true,
     formData: {
 
     },
     rules: [{
-      name: 'radio',
-      rules: {
-        required: true,
-        message: '单选列表是必选项'
+        name: 'price',
+        rules: {
+          required: true,
+          message: '请输入商品单价'
+        },
       },
-    }, {
-      name: 'checkbox',
-      rules: {
-        required: true,
-        message: '多选列表是必选项'
-      },
-    }, {
-      name: 'qq',
-      rules: {
-        required: true,
-        message: 'qq必填'
-      },
-    }, {
-      name: 'mobile',
-      rules: [{
-        required: true,
-        message: 'mobile必填'
-      }, {
-        mobile: true,
-        message: 'mobile格式不对'
-      }],
-    }, {
-      name: 'vcode',
-      rules: {
-        required: true,
-        message: '验证码必填'
-      },
-    }, {
-      name: 'idcard',
-      rules: {
-        required: true,
-        message: 'idcard必填'
-      },
-    }]
-  },
+      {
+        name: 'mobile',
+        rules: [{
+          required: false,
+          message: ''
+        }, {
+          mobile: true,
+          message: '请输入正确的手机号'
+        }],
+      }
+    ],
 
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -405,6 +357,38 @@ Page({
         objectCategoryArr: data
       })
     }
+  },
+
+  /**
+   * 商品数量减1
+   * @param {*} e 
+   */
+  bindDecreaseNumber(e) {
+    this.data.number -= 1;
+    if (this.data.number === 1) {
+      this.setData({
+        isInputNumberDecrease: true
+      })
+    }
+    this.setData({
+      number: this.data.number
+    })
+  },
+
+  /**
+   * 商品数量加1
+   * @param {*} e 
+   */
+  bindIncreaseNumber(e) {
+    this.data.number += 1;
+    if (this.data.number > 1) {
+      this.setData({
+        isInputNumberDecrease: false
+      })
+    }
+    this.setData({
+      number: this.data.number
+    })
   },
   bindDateChange: function (e) {
     console.log('picker发送选择改变，携带值为', e.detail.value)

@@ -1,9 +1,10 @@
 <!--pages/record/index.wxml-->
-<view class="page" xmlns:wx="http://www.w3.org/1999/xhtml">
+<mp-toptips msg="{{error}}" type="error" show="{{error}}"></mp-toptips>
+<view class="page">
   <view class="page__bd">
     <mp-form id="form" rules="{{rules}}" models="{{formData}}">
       <mp-cells title="销售日期">
-        <mp-cell prop="date" title="日期" ext-class="">
+        <mp-cell title="日期" ext-class="">
           <picker data-field="date" mode="date" value="{{date}}" start="2015-09-01" end="2017-09-01"
             bindchange="bindDateChange">
             <view class="weui-input">{{date}}</view>
@@ -12,7 +13,7 @@
       </mp-cells>
 
       <mp-cells title="顾客信息">
-        <mp-cell prop="qq" title="年龄" ext-class="">
+        <mp-cell title="年龄" ext-class="">
           <view class="weui-cell weui-cell_select">
             <view class="weui-cell__bd">
               <picker bindchange="bindAgeChange" value="{{ageIndex}}" range="{{ageArr}}">
@@ -24,7 +25,7 @@
         <mp-cell prop="mobile" title="手机号" ext-class="">
           <input bindinput="formInputChange" data-field="qq" class="weui-input" placeholder="请输入手机号" />
         </mp-cell>
-        <mp-cell prop="date" title="是否回头客" ext-class="repeat-cell">
+        <mp-cell title="是否回头客" ext-class="repeat-cell">
           <view class="repeat-switch">
             <switch checked="{{isRepeat}}" bindchange="bindIsRepeatChange" />
           </view>
@@ -32,7 +33,7 @@
       </mp-cells>
 
       <mp-cells title="商品信息">
-        <mp-cell prop="qq" title="分类" ext-class="">
+        <mp-cell title="分类">
           <view class="weui-cell weui-cell_select">
             <view class="weui-cell__bd">
               <picker mode="multiSelector" bindchange="bindMultiPickerChange"
@@ -47,7 +48,7 @@
           </view>
 
         </mp-cell>
-        <mp-cell prop="qq" title="颜色" ext-class="">
+        <mp-cell title="颜色">
           <view class="weui-cell weui-cell_select">
             <view class="weui-cell__bd">
               <picker bindchange="bindColorChange" value="{{colorIndex}}" range-key="{{'name'}}"
@@ -57,32 +58,26 @@
             </view>
           </view>
         </mp-cell>
-        <mp-cell prop="qq" title="数量" ext-class="">
-          <view class="weui-cell weui-cell_select">
-            <view class="weui-cell__bd">
-              <picker bindchange="bindCountryChange" value="{{countryIndex}}" range="{{countries}}">
-                <view class="">{{countries[countryIndex]}}</view>
-              </picker>
-            </view>
+        <mp-cell title="数量">
+          <view class="input-number">
+            <button class="input-number__decrease" size="mini" disabled="{{ isInputNumberDecrease}}"
+              bindtap="bindDecreaseNumber">
+              <text class="iconfont icon-jian"></text>
+            </button>
+            <view class="input-number__value">{{ number }}</view>
+            <button class="input-number__increase" size="mini" bindtap="bindIncreaseNumber">
+              <text class="iconfont icon-jia"></text>
+            </button>
           </view>
         </mp-cell>
-        <mp-cell prop="qq" title="单价" ext-class="">
-          <view class="weui-cell weui-cell_select">
-            <view class="weui-cell__bd">
-              <picker bindchange="bindCountryChange" value="{{countryIndex}}" range="{{countries}}">
-                <view class="">{{countries[countryIndex]}}</view>
-              </picker>
-            </view>
-          </view>
+        <mp-cell prop="price" title="单价" >
+        
+            <input type="number" placeholder="请输入商品单价" />
+      
         </mp-cell>
-        <mp-cell prop="qq" title="图片" ext-class="">
-          <view class="weui-cell weui-cell_select">
-            <view class="weui-cell__bd">
-              <picker bindchange="bindCountryChange" value="{{countryIndex}}" range="{{countries}}">
-                <view class="">{{countries[countryIndex]}}</view>
-              </picker>
-            </view>
-          </view>
+        <mp-cell>
+          <mp-uploader bindfail="uploadError" bindsuccess="uploadSuccess" select="{{selectFile}}"
+            upload="{{uplaodFile}}" files="{{files}}" max-count="3" title="图片上传"></mp-uploader>
         </mp-cell>
       </mp-cells>
 
@@ -104,14 +99,10 @@
                 </view>
             </view>
         </view>
-
-      
-  
-
       </mp-form>
 
         <view class="weui-btn-area">
-            <button class="weui-btn" type="primary" bindtap="submitForm">确定</button>
+            <button class="weui-btn" type="primary" bindtap="submitForm">提交</button>
         </view>
     </view>
 </view>
