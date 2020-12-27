@@ -1,12 +1,14 @@
-// pages/record/index.js
+const util = require('../../utils/util.js')
+const WxValidate = require('../../utils/WxValidate.js')
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    date: '2016-09-01',
-    time: '12:01',
+    date: '',
+    time: '',
     ageArr: ['18-25岁', '25-30岁',
       '30-35岁',
       '35-40岁',
@@ -220,30 +222,29 @@ Page({
 
     },
     rules: [{
-        name: 'price',
-        rules: {
-          required: true,
-          message: '请输入商品单价'
-        },
+      name: 'price',
+      rules: {
+        required: true,
+        message: '请输入商品单价'
       },
-      {
-        name: 'mobile',
-        rules: [{
-          required: false,
-          message: ''
-        }, {
-          mobile: true,
-          message: '请输入正确的手机号'
-        }],
-      }
-    ],
-
+    }],
+    files: [{
+      url: 'http://mmbiz.qpic.cn/mmbiz_png/VUIF3v9blLsicfV8ysC76e9fZzWgy8YJ2bQO58p43Lib8ncGXmuyibLY7O3hia8sWv25KCibQb7MbJW3Q7xibNzfRN7A/0',
+    }]
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    const date = util.formatDate(new Date())
+    const time = util.formatTime(new Date())
 
+    this.setData({
+      date: date,
+      time: time,
+      selectFile: this.selectFile.bind(this),
+      uplaodFile: this.uplaodFile.bind(this)
+    });
   },
 
   /**
@@ -305,7 +306,6 @@ Page({
     })
   },
 
-
   /**
    * 是否回头客切换
    * @param {*} e 
@@ -336,7 +336,6 @@ Page({
   },
   bindMultiPickerChange: function (e) {
     console.log('picker发送选择改变，携带值为', e.detail.value)
-
 
     this.setData({
       categoryIndex: e.detail.value
@@ -390,18 +389,21 @@ Page({
       number: this.data.number
     })
   },
+
   bindDateChange: function (e) {
     console.log('picker发送选择改变，携带值为', e.detail.value)
     this.setData({
       date: e.detail.value
     })
   },
+
   bindTimeChange: function (e) {
     console.log('picker发送选择改变，携带值为', e.detail.value)
     this.setData({
       time: e.detail.value
     })
   },
+
   bindRegionChange: function (e) {
     console.log('picker发送选择改变，携带值为', e.detail.value)
     this.setData({
@@ -488,6 +490,46 @@ Page({
       isAgree: !!e.detail.value.length
     });
   },
+
+  chooseImage: function (e) {
+    var that = this;
+    wx.chooseImage({
+      sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+      sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+      success: function (res) {
+        // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
+        that.setData({
+          files: that.data.files.concat(res.tempFilePaths)
+        });
+      }
+    })
+  },
+  previewImage: function (e) {
+    wx.previewImage({
+      current: e.currentTarget.id, // 当前显示图片的http链接
+      urls: this.data.files // 需要预览的图片http链接列表
+    })
+  },
+  selectFile(files) {
+    console.log('files', files)
+    // 返回false可以阻止某次文件上传
+  },
+  uplaodFile(files) {
+    console.log('upload files', files)
+    // 文件上传的函数，返回一个promise
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        reject('some error')
+      }, 1000)
+    })
+  },
+  uploadError(e) {
+    console.log('upload error', e.detail)
+  },
+  uploadSuccess(e) {
+    console.log('upload success', e.detail)
+  },
+
   submitForm() {
     this.selectComponent('#form').validate((valid, errors) => {
       console.log('valid', valid, errors)

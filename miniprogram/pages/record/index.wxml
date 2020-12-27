@@ -5,7 +5,7 @@
     <mp-form id="form" rules="{{rules}}" models="{{formData}}">
       <mp-cells title="销售日期">
         <mp-cell title="日期" ext-class="">
-          <picker data-field="date" mode="date" value="{{date}}" start="2015-09-01" end="2017-09-01"
+          <picker data-field="date" mode="date" value="{{date}}"
             bindchange="bindDateChange">
             <view class="weui-input">{{date}}</view>
           </picker>
@@ -21,9 +21,6 @@
               </picker>
             </view>
           </view>
-        </mp-cell>
-        <mp-cell prop="mobile" title="手机号" ext-class="">
-          <input bindinput="formInputChange" data-field="qq" class="weui-input" placeholder="请输入手机号" />
         </mp-cell>
         <mp-cell title="是否回头客" ext-class="repeat-cell">
           <view class="repeat-switch">
@@ -77,7 +74,7 @@
         </mp-cell>
         <mp-cell>
           <mp-uploader bindfail="uploadError" bindsuccess="uploadSuccess" select="{{selectFile}}"
-            upload="{{uplaodFile}}" files="{{files}}" max-count="3" title="图片上传"></mp-uploader>
+            upload="{{uplaodFile}}" files="{{files}}" max-count="3" max-size="20971520" title="商品图片"></mp-uploader>
         </mp-cell>
       </mp-cells>
 
