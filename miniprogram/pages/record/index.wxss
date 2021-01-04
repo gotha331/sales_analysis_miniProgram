@@ -2,6 +2,18 @@
   padding-bottom: 30px;
 }
 
+.date-time-view {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.date-time-view .date-view {
+  flex: 1;
+}
+.date-time-view .time-view {
+  flex: 1;
+}
+
 .input-number {
   width: 130px;
   height: 22px;

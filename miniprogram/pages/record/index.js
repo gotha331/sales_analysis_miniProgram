@@ -1,5 +1,6 @@
 const util = require('../../utils/util.js')
 const WxValidate = require('../../utils/WxValidate.js')
+import Toast from '@vant/weapp/toast/toast'
 
 Page({
 
@@ -7,6 +8,8 @@ Page({
    * 页面的初始数据
    */
   data: {
+    show: false,
+    columns: ['杭州', '宁波', '温州', '嘉兴', '湖州'],
     date: '',
     time: '',
     ageArr: ['18-25岁', '25-30岁',
@@ -228,9 +231,7 @@ Page({
         message: '请输入商品单价'
       },
     }],
-    files: [{
-      url: 'http://mmbiz.qpic.cn/mmbiz_png/VUIF3v9blLsicfV8ysC76e9fZzWgy8YJ2bQO58p43Lib8ncGXmuyibLY7O3hia8sWv25KCibQb7MbJW3Q7xibNzfRN7A/0',
-    }]
+    files: []
   },
   /**
    * 生命周期函数--监听页面加载
@@ -294,6 +295,61 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+
+  /**
+   * 日期选择器
+   * @param {*} e 
+   */
+  bindDateChange: function (e) {
+    console.log('picker发送选择改变，携带值为', e.detail.value)
+    this.setData({
+      date: e.detail.value,
+      [`formData.date`]: e.detail.value
+    })
+  },
+
+  /**
+   * 时间选择器
+   * @param {*} e 
+   */
+  bindTimeChange: function (e) {
+    console.log('picker发送选择改变，携带值为', e.detail.value)
+    this.setData({
+      time: e.detail.value
+    })
+  },
+
+  showPopup() {
+    this.setData({
+      show: true
+    });
+  },
+
+  onClose() {
+    this.setData({
+      show: false
+    });
+  },
+
+  onConfirm(event) {
+    const {
+      value,
+      index
+    } = event.detail;
+
+    console.log(event);
+    Toast(`当前值：${value}, 当前索引：${index}`);
+    this.setData({
+      show: false
+    });
+  },
+
+  onCancel() {
+    // Toast('取消');
+    this.setData({
+      show: false
+    });
   },
 
   /**
@@ -451,14 +507,6 @@ Page({
       [`formData.date`]: e.detail.value
     })
   },
-  formInputChange(e) {
-    const {
-      field
-    } = e.currentTarget.dataset
-    this.setData({
-      [`formData.${field}`]: e.detail.value
-    })
-  },
   bindTimeChange: function (e) {
     this.setData({
       time: e.detail.value
@@ -497,6 +545,8 @@ Page({
       sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
       sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
       success: function (res) {
+
+        console.log(res);
         // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
         that.setData({
           files: that.data.files.concat(res.tempFilePaths)
@@ -518,16 +568,91 @@ Page({
     console.log('upload files', files)
     // 文件上传的函数，返回一个promise
     return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        reject('some error')
-      }, 1000)
+
+      const tempFilePaths = files.tempFilePaths;
+      //上传返回值
+      const that = this;
+      const object = {};
+      for (var i = 0; i < tempFilePaths.length; i++) {
+        let filePath = '',
+          cloudPath = ''
+        filePath = tempFilePaths[i]
+        // 上传图片
+        // cloudPath 最好按时间 遍历的index来排序，避免文件名重复
+        cloudPath = 'goods-' + new Date().getTime() + '-' + i + filePath.match(/\.[^.]+?$/)[0]
+
+        console.log(filePath)
+        console.log(cloudPath)
+        wx.cloud.uploadFile({
+          filePath,
+          cloudPath,
+          success: function (res) {
+            console.log(res)
+            // 可能会有好几个200+的返回码，表示成功
+            if (res.statusCode === 200 || res.statusCode === 204 || res.statusCode === 205) {
+              const url = res.fileID
+              that.data.files.push(url)
+              if (that.data.files.length === tempFilePaths.length) {
+                object.urls = that.data.files;
+                resolve(object) //这就是判断是不是最后一张已经上传了，用来返回，
+              }
+
+              const db = wx.cloud.database();
+              db.collection("images").add({
+                data: {
+                  goodImage: res.fileID
+                },
+                success: function (e) {
+                  console.log(1111);
+                  console.log(e);
+
+                },
+                fail: function () {
+                  wx.showToast({
+                    title: '图片存储失败',
+                    icon: 'none',
+                    duration: 3000
+                  })
+                }
+              });
+            } else {
+              reject('error')
+            }
+          },
+          fail: function (err) {
+            console.log(err)
+          },
+          conplete: () => {}
+        })
+      }
     })
   },
   uploadError(e) {
     console.log('upload error', e.detail)
   },
   uploadSuccess(e) {
+
+    console.log(e);
     console.log('upload success', e.detail)
+  },
+
+  /**
+   * 输入商品单价
+   * @param {*} e 
+   */
+  bindPriceInput(e) {
+    this.setData({
+      ['formData.price']: e.detail.value
+    })
+  },
+
+  formInputChange(e) {
+    const {
+      field
+    } = e.currentTarget.dataset
+    this.setData({
+      [`formData.${field}`]: e.detail.value
+    })
   },
 
   submitForm() {

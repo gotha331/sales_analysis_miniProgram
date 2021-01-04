@@ -1,17 +1,66 @@
-<!--pages/record/index.wxml-->
+<!-- pages/record/index.wxml -->
 <mp-toptips msg="{{error}}" type="error" show="{{error}}"></mp-toptips>
 <view class="page">
+  <van-cell-group title="销售日期">
+    <van-cell title="日期" size="large" value="内容" />
+  </van-cell-group>
+  <van-cell-group title="顾客信息">
+    <van-cell title="年龄" size="large" is-link bind:click="showPopup">
+      <van-popup show="{{ show }}" position="bottom" custom-style="height: 270px;" bind:close="onClose">
+        <van-picker show-toolbar title="" columns="{{ columns }}" bind:cancel="onCancel" bind:confirm="onConfirm" />
+      </van-popup>
+    </van-cell>
+
+    <van-cell title="是否回头客" size="large" is-link value="内容" />
+  </van-cell-group>
+  <van-cell-group title="商品信息">
+    <van-cell title="分类" size="large" is-link value="内容" />
+    <van-cell title="颜色" size="large" is-link value="内容" />
+    <van-cell title="数量" size="large">
+      <van-stepper slot="right-icon" value="{{ 1 }}" bind:change="onChange" />
+    </van-cell>
+    <!-- <van-cell title="单价" size="large"> -->
+    <van-field value="{{ username }}" label="单价" size="large" input-align="right" required placeholder="请输入商品单价" />
+    <!-- </van-cell> -->
+
+
+
+
+    <van-cell title="商品图片" size="large" is-link value="内容" />
+  </van-cell-group>
+  <van-cell-group title="顾客意见/建议">
+    <van-field value="{{ value }}" type="textarea" placeholder="请输入意见/建议" border="{{ false }}" bind:change="onChange" />
+  </van-cell-group>
+  <van-cell-group title="备注">
+    <van-field value="{{ value }}" type="textarea" placeholder="请输入备注信息" border="{{ false }}" bind:change="onChange" />
+  </van-cell-group>
+
+  <van-button type="primary">提交</van-button>
+
+
+
+
+
+
+
   <view class="page__bd">
     <mp-form id="form" rules="{{rules}}" models="{{formData}}">
       <mp-cells title="销售日期">
-        <mp-cell title="日期" ext-class="">
-          <picker data-field="date" mode="date" value="{{date}}"
-            bindchange="bindDateChange">
-            <view class="weui-input">{{date}}</view>
-          </picker>
+        <mp-cell title="日期">
+          <view class="date-time-view">
+            <view class="date-view">
+              <picker data-field="date" mode="date" value="{{date}}" end="{{date}}" bindchange="bindDateChange">
+                <view>{{date}}</view>
+              </picker>
+            </view>
+            <view slot="footer" class="time-view">
+              <picker data-field="time" mode="time" value="{{time}}" bindchange="bindTimeChange">
+                <view>{{time}}</view>
+              </picker>
+            </view>
+          </view>
         </mp-cell>
       </mp-cells>
-
       <mp-cells title="顾客信息">
         <mp-cell title="年龄" ext-class="">
           <view class="weui-cell weui-cell_select">
@@ -28,7 +77,6 @@
           </view>
         </mp-cell>
       </mp-cells>
-
       <mp-cells title="商品信息">
         <mp-cell title="分类">
           <view class="weui-cell weui-cell_select">
@@ -43,7 +91,6 @@
               </picker>
             </view>
           </view>
-
         </mp-cell>
         <mp-cell title="颜色">
           <view class="weui-cell weui-cell_select">
@@ -67,40 +114,35 @@
             </button>
           </view>
         </mp-cell>
-        <mp-cell prop="price" title="单价" >
-        
-            <input type="number" placeholder="请输入商品单价" />
-      
+        <mp-cell show-error prop="price" title="单价">
+          <input type="number" placeholder="请输入商品单价" bindinput="bindPriceInput" />
         </mp-cell>
         <mp-cell>
           <mp-uploader bindfail="uploadError" bindsuccess="uploadSuccess" select="{{selectFile}}"
             upload="{{uplaodFile}}" files="{{files}}" max-count="3" max-size="20971520" title="商品图片"></mp-uploader>
         </mp-cell>
       </mp-cells>
-
       <view class="weui-cells__title">顾客意见/建议</view>
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell">
           <view class="weui-cell__bd">
             <textarea class="weui-textarea" placeholder="顾客意见/建议" style="height: 3.3em" />
             <view class="weui-textarea-counter">0/200</view>
-                </view>
-            </view>
+          </view>
         </view>
-        <view class="weui-cells__title">备注</view>
+      </view>
+      <view class="weui-cells__title">备注</view>
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell">
           <view class="weui-cell__bd">
             <textarea class="weui-textarea" placeholder="请输入备注信息" style="height: 3.3em" />
             <view class="weui-textarea-counter">0/200</view>
-                </view>
-            </view>
+          </view>
         </view>
-      </mp-form>
-
-        <view class="weui-btn-area">
-            <button class="weui-btn" type="primary" bindtap="submitForm">提交</button>
-        </view>
+      </view>
+    </mp-form>
+    <view class="weui-btn-area">
+      <button class="weui-btn" type="primary" bindtap="submitForm">提交</button>
     </view>
+  </view>
 </view>
-    
